@@ -8,7 +8,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID || 'mock-client-id',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'mock-client-secret',
-      callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3000/api/v1/auth/google/callback',
+      callbackURL: process.env.GOOGLE_CALLBACK_URL || 'https://tangerangkost.onrender.com/api/v1/auth/google/callback',
+      proxy: true,
       scope: ['email', 'profile'],
     });
   }
