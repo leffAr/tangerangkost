@@ -256,7 +256,7 @@ model RefreshToken {
   id        String   @id @default(uuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  token     String   @unique
+  token     String   @db.Text
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
@@ -265,7 +265,7 @@ model DeviceToken {
   id        String   @id @default(uuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  token     String   @unique
+  token     String   @db.Text
   device    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
