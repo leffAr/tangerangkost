@@ -90,3 +90,8 @@ export const getUnreadMessageCount = async () => {
   const { data } = await api.get('/contact/unread-count');
   return data.count;
 };
+
+export const deleteContactMessage = async (id: string) => {
+  const { data } = await api.delete(`/contact/${id}`);
+  return data;
+};

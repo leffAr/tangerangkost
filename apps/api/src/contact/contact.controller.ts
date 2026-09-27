@@ -33,4 +33,11 @@ export class ContactController {
   markAsRead(@Param('id') id: string) {
     return this.contactService.markAsRead(id);
   }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.contactService.remove(id);
+  }
 }

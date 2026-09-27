@@ -30,4 +30,10 @@ export class ContactService {
       data: { isRead: true },
     });
   }
+
+  async remove(id: string) {
+    return this.prisma.contactMessage.delete({
+      where: { id },
+    });
+  }
 }

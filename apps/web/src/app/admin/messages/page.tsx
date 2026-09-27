@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Mail, CheckCircle, MailOpen, Phone, X, Calendar, User } from 'lucide-react';
+import { Mail, CheckCircle, MailOpen, Phone, X, Calendar, User, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getContactMessages, markContactMessageRead } from '@/lib/api';
+import { getContactMessages, markContactMessageRead, deleteContactMessage } from '@/lib/api';
+import toast from 'react-hot-toast';
 
 export default function AdminMessagesPage() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -34,7 +35,24 @@ export default function AdminMessagesPage() {
         setSelectedMessage({ ...selectedMessage, isRead: true });
       }
     } catch (error) {
-      alert("Gagal menandai pesan");
+      toast.error("Gagal menandai pesan");
+    }
+  };
+
+  const handleDelete = async (id: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (!window.confirm("Apakah Anda yakin ingin menghapus pesan ini?")) return;
+    
+    const toastId = toast.loading('Menghapus pesan...');
+    try {
+      await deleteContactMessage(id);
+      toast.success('Pesan berhasil dihapus', { id: toastId });
+      if (selectedMessage && selectedMessage.id === id) {
+        setSelectedMessage(null);
+      }
+      fetchMessages();
+    } catch (error) {
+      toast.error("Gagal menghapus pesan", { id: toastId });
     }
   };
 
@@ -68,13 +86,13 @@ export default function AdminMessagesPage() {
               <div 
                 key={msg.id} 
                 onClick={() => handleOpenMessage(msg)}
-                className={`p-4 md:p-6 transition-all cursor-pointer hover:bg-gray-50 ${msg.isRead ? 'bg-white' : 'bg-blue-50/50'}`}
+                className={`p-4 md:p-6 transition-all cursor-pointer hover:bg-gray-50 group relative ${msg.isRead ? 'bg-white' : 'bg-blue-50/50'}`}
               >
                 <div className="flex gap-4">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${msg.isRead ? 'bg-gray-100 text-gray-500' : 'bg-blue-100 text-[#00288E]'}`}>
                     {msg.isRead ? <MailOpen className="w-5 h-5" /> : <Mail className="w-5 h-5" />}
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 pr-8">
                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-1 gap-1">
                       <h3 className={`font-semibold truncate ${msg.isRead ? 'text-gray-700' : 'text-gray-900'}`}>{msg.name}</h3>
                       <span className="text-xs text-gray-400 shrink-0">{new Date(msg.createdAt).toLocaleString('id-ID')}</span>
@@ -83,6 +101,21 @@ export default function AdminMessagesPage() {
                     <p className="text-gray-500 text-sm truncate">{msg.message}</p>
                   </div>
                 </div>
+                
+                {/* Delete Button (Visible on hover on desktop, always visible on mobile if needed, but let's make it absolute right) */}
+                <button
+                  onClick={(e) => handleDelete(msg.id, e)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors opacity-0 group-hover:opacity-100 md:opacity-0"
+                  title="Hapus Pesan"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={(e) => handleDelete(msg.id, e)}
+                  className="md:hidden absolute right-4 top-1/2 -translate-y-1/2 p-2 text-red-400 bg-red-50 rounded-full"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
               </div>
             ))}
           </div>
@@ -98,9 +131,14 @@ export default function AdminMessagesPage() {
           >
             <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
               <h2 className="font-bold text-lg text-gray-800">Detail Pesan</h2>
-              <button onClick={() => setSelectedMessage(null)} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button onClick={(e) => handleDelete(selectedMessage.id, e)} className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors" title="Hapus">
+                  <Trash2 className="w-5 h-5" />
+                </button>
+                <button onClick={() => setSelectedMessage(null)} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
             
             <div className="p-6 overflow-y-auto">
