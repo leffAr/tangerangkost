@@ -1,0 +1,329 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  OWNER
+  USER
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+}
+
+enum OwnerVerification {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum ListingStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+  ARCHIVED
+}
+
+enum RoomStatus {
+  AVAILABLE
+  OCCUPIED
+  MAINTENANCE
+}
+
+enum GenderType {
+  PUTRA
+  PUTRI
+  CAMPUR
+}
+
+enum BookingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+  ACTIVE
+  COMPLETED
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum KosType {
+  EKSKLUSIF
+  MURAH
+  STANDAR
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  passwordHash  String?
+  name          String
+  phone         String?
+  role          Role           @default(USER)
+  status        UserStatus     @default(ACTIVE)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  ownerProfile  OwnerProfile?
+  reviews       Review[]
+  favorites     Favorite[]
+  reports       Report[]
+  notifications Notification[]
+  refreshTokens RefreshToken[]
+  deviceTokens  DeviceToken[]
+  activityLogs  ActivityLog[]
+  bookings      Booking[]
+}
+
+model OwnerProfile {
+  id                String            @id @default(uuid())
+  userId            String            @unique
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  identityCardImage String?
+  selfieImage       String?
+  verificationStatus OwnerVerification @default(PENDING)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  koses             Kos[]
+}
+
+model Kos {
+  id          String        @id @default(uuid())
+  ownerId     String
+  owner       OwnerProfile  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  categoryId  String?
+  category    Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  name        String
+  slug        String        @unique
+  description String        @db.Text
+  address     String
+  village     String
+  district    String
+  regency     String
+  province    String
+  postalCode  String?
+  latitude    Float?
+  longitude   Float?
+  priceFrom   Decimal       @db.Decimal(10, 2)
+  priceTo     Decimal       @db.Decimal(10, 2)
+  genderType  GenderType
+  kosType     KosType       @default(STANDAR)
+  rules       String?       @db.Text
+  phone       String?
+  whatsapp    String?
+  status      ListingStatus @default(DRAFT)
+  isVerified  Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  kosImages   KosImage[]
+  rooms       Room[]
+  facilities  KosFacility[]
+  reviews     Review[]
+  favorites   Favorite[]
+  reports     Report[]
+}
+
+model KosImage {
+  id        String   @id @default(uuid())
+  kosId     String
+  kos       Kos      @relation(fields: [kosId], references: [id], onDelete: Cascade)
+  url       String
+  isPrimary Boolean  @default(false)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Room {
+  id          String     @id @default(uuid())
+  kosId       String
+  kos         Kos        @relation(fields: [kosId], references: [id], onDelete: Cascade)
+  name        String
+  description String?    @db.Text
+  price       Decimal    @db.Decimal(10, 2)
+  stock       Int        @default(1)
+  status      RoomStatus @default(AVAILABLE)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  bookings    Booking[]
+}
+
+model Facility {
+  id        String        @id @default(uuid())
+  name      String        @unique
+  icon      String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  koses     KosFacility[]
+}
+
+model KosFacility {
+  kosId      String
+  kos        Kos      @relation(fields: [kosId], references: [id], onDelete: Cascade)
+  facilityId String
+  facility   Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+
+  @@id([kosId, facilityId])
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  koses     Kos[]
+}
+
+model Location {
+  id        String   @id @default(uuid())
+  name      String
+  type      String   // e.g., REGENCY, DISTRICT, VILLAGE
+  parentId  String?
+  parent    Location? @relation("LocationHierarchy", fields: [parentId], references: [id], onDelete: Restrict)
+  children  Location[] @relation("LocationHierarchy")
+  latitude  Float?
+  longitude Float?
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kosId     String
+  kos       Kos      @relation(fields: [kosId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String?  @db.Text
+  reply     String?  @db.Text // Owner's reply
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Favorite {
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kosId     String
+  kos       Kos      @relation(fields: [kosId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, kosId])
+}
+
+model Report {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kosId     String
+  kos       Kos      @relation(fields: [kosId], references: [id], onDelete: Cascade)
+  reason    String
+  details   String?  @db.Text
+  status    String   @default("PENDING") // PENDING, RESOLVED, REJECTED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String   @db.Text
+  isRead    Boolean  @default(false)
+  data      Json?
+  createdAt DateTime @default(now())
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model DeviceToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  device    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String?
+  entityId  String?
+  metadata  Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+}
+model Booking {
+  id             String        @id @default(uuid())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roomId         String
+  room           Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  startDate      DateTime
+  durationMonths Int
+  totalPrice     Decimal       @db.Decimal(10, 2)
+  status         BookingStatus @default(PENDING)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  transaction    Transaction?
+}
+
+model Transaction {
+  id            String            @id @default(uuid())
+  bookingId     String            @unique
+  booking       Booking           @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  amount        Decimal           @db.Decimal(10, 2)
+  paymentMethod String?
+  paymentUrl    String?
+  status        TransactionStatus @default(PENDING)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model PopularArea {
+  id        String   @id @default(uuid())
+  name      String
+  imageUrl  String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
