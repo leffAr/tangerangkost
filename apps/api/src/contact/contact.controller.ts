@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 
-@Controller('v1/contact')
+@Controller('contact')
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
 
