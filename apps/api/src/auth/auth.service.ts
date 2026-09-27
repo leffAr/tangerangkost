@@ -45,24 +45,16 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    const user = await this.usersService.findOne({ email: loginDto.email });
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+    try {
+      const user = await this.usersService.findOne({ email: loginDto.email });
+      if (!user) throw new UnauthorizedException('Invalid credentials');
+      if (!user.passwordHash) throw new UnauthorizedException('Silakan masuk menggunakan akun Google Anda');
+      const isPasswordValid = await bcrypt.compare(loginDto.password, user.passwordHash);
+      if (!isPasswordValid) throw new UnauthorizedException('Invalid credentials');
+      return await this.generateTokens(user.id, user.email, user.role);
+    } catch (e: any) {
+      throw new import('@nestjs/common').HttpException({ message: "DEBUG ERROR", error: e.message, stack: e.stack }, 400);
     }
-    
-    if (!user.passwordHash) {
-      throw new UnauthorizedException('Silakan masuk menggunakan akun Google Anda');
-    }
-
-    const isPasswordValid = await bcrypt.compare(
-      loginDto.password,
-      user.passwordHash,
-    );
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-
-    return this.generateTokens(user.id, user.email, user.role);
   }
 
   async googleLogin(reqUser: any) {
