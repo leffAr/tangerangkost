@@ -16,11 +16,7 @@ async function bootstrap() {
   
   // CORS Configuration
   app.enableCors({
-    origin: [
-      process.env.FRONTEND_URL || 'http://localhost:3001', 
-      'http://192.168.137.1:3001',
-      'http://192.168.137.1:3002'
-    ],
+    origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
