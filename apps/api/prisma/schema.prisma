@@ -331,7 +331,7 @@ model SiteSetting {
 model ContactMessage {
   id        String   @id @default(uuid())
   name      String
-  email     String
+  phone     String
   subject   String?
   message   String   @db.Text
   isRead    Boolean  @default(false)

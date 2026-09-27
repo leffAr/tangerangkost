@@ -1,30 +1,58 @@
 "use client";
 
-import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowRight, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { submitContactMessage } from '@/lib/api';
+import Link from 'next/link';
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', phone: '', subject: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check if user is logged in
+    const storedToken = localStorage.getItem('token');
+    setToken(storedToken);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!token) return;
     setStatus('loading');
     try {
-      await submitContactMessage(formData);
+      await submitContactMessage(formData, token);
       setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', phone: '', subject: '', message: '' });
     } catch (error) {
       setStatus('error');
     }
   };
 
+  if (!token) {
+    return (
+      <div className="lg:col-span-3 p-8 md:p-12 flex flex-col items-center justify-center text-center">
+        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-6 text-gray-400">
+          <Lock className="w-8 h-8" />
+        </div>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Login Diperlukan</h2>
+        <p className="text-gray-500 mb-8 max-w-sm">
+          Demi keamanan, hanya pengguna yang sudah terdaftar yang dapat mengirim pesan ke admin.
+        </p>
+        <Link href="/login">
+          <Button className="bg-[#00288E] hover:bg-[#001859] text-white px-8 py-6 rounded-xl font-bold">
+            Login Sekarang
+          </Button>
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="lg:col-span-3 p-8 md:p-12">
       <h2 className="text-3xl font-bold text-gray-900 mb-2">Tinggalkan Pesan</h2>
-      <p className="text-gray-500 mb-8">Isi formulir di bawah ini dan kami akan membalas via email secepatnya.</p>
+      <p className="text-gray-500 mb-8">Isi formulir di bawah ini dan admin akan merespons pesan Anda secepatnya.</p>
       
       {status === 'success' && (
         <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-xl border border-green-200">
@@ -52,13 +80,13 @@ export default function ContactForm() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-gray-900">Alamat Email</label>
+            <label className="text-sm font-semibold text-gray-900">Nomor WhatsApp (WA)</label>
             <input 
-              type="email" 
+              type="tel" 
               required
-              value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
-              placeholder="email@contoh.com" 
+              value={formData.phone}
+              onChange={(e) => setFormData({...formData, phone: e.target.value})}
+              placeholder="0812xxxx..." 
               className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00288E]/20 focus:border-[#00288E] transition-all"
             />
           </div>

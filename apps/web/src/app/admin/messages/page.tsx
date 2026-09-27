@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Mail, CheckCircle, MailOpen } from 'lucide-react';
+import { Mail, CheckCircle, MailOpen, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getContactMessages, markContactMessageRead } from '@/lib/api';
 
@@ -67,7 +67,10 @@ export default function AdminMessagesPage() {
                       <h3 className={`font-semibold ${msg.isRead ? 'text-gray-700' : 'text-gray-900'}`}>{msg.name}</h3>
                       <span className="text-xs text-gray-400">{new Date(msg.createdAt).toLocaleDateString('id-ID')}</span>
                     </div>
-                    <p className="text-sm text-gray-500 mb-3">{msg.email}</p>
+                    <div className="flex items-center text-sm text-gray-500 mb-3 gap-1">
+                      <Phone className="w-3 h-3" />
+                      <span>{msg.phone}</span>
+                    </div>
                     {msg.subject && <p className="text-sm font-medium text-gray-800 mb-2">Subjek: {msg.subject}</p>}
                     <p className="text-gray-600 text-sm whitespace-pre-wrap">{msg.message}</p>
                     

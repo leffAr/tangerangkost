@@ -64,11 +64,12 @@ api.interceptors.response.use(
 );
 
 // Contact Messages
-export const submitContactMessage = async (data: { name: string; email: string; subject?: string; message: string }) => {
+export const submitContactMessage = async (data: { name: string; phone: string; subject?: string; message: string }, token: string) => {
   const response = await fetch(`${baseURL}/contact`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });

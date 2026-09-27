@@ -8,8 +8,9 @@ import { Roles } from '../auth/decorators/roles.decorator';
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() data: { name: string; email: string; subject?: string; message: string }) {
+  create(@Body() data: { name: string; phone: string; subject?: string; message: string }) {
     return this.contactService.create(data);
   }
 

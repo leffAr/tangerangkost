@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ContactService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: { name: string; email: string; subject?: string; message: string }) {
+  async create(data: { name: string; phone: string; subject?: string; message: string }) {
     return this.prisma.contactMessage.create({
       data,
     });
