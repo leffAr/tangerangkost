@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, Users, Building, ShieldCheck, LogOut, ClipboardList, Star, UserCircle, ArrowLeft, MapPin, Settings, Menu, X } from 'lucide-react';
+import { Home, Users, Mail, Building, ShieldCheck, LogOut, ClipboardList, Star, UserCircle, ArrowLeft, MapPin, Settings, Menu, X } from 'lucide-react';
 import { destroyCookie } from 'nookies';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -39,6 +39,7 @@ export default function DashboardLayout({
     { name: 'Manajemen Kos', href: '/admin/kos', icon: Building },
     { name: 'Area Populer', href: '/admin/popular-areas', icon: MapPin },
     { name: 'Pengaturan', href: '/admin/settings', icon: Settings },
+    { name: 'Pesan Masuk', href: '/admin/messages', icon: Mail },
   ];
 
   const links = role === 'ADMIN' ? adminLinks : role === 'OWNER' ? ownerLinks : userLinks;
