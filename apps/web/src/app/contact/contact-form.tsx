@@ -1,53 +1,25 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { ArrowRight, Lock } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { submitContactMessage } from '@/lib/api';
-import Link from 'next/link';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({ name: '', phone: '', subject: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Check if user is logged in
-    const storedToken = localStorage.getItem('token');
-    setToken(storedToken);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!token) return;
     setStatus('loading');
     try {
-      await submitContactMessage(formData, token);
+      await submitContactMessage(formData);
       setStatus('success');
       setFormData({ name: '', phone: '', subject: '', message: '' });
     } catch (error) {
       setStatus('error');
     }
   };
-
-  if (!token) {
-    return (
-      <div className="lg:col-span-3 p-8 md:p-12 flex flex-col items-center justify-center text-center">
-        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-6 text-gray-400">
-          <Lock className="w-8 h-8" />
-        </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Login Diperlukan</h2>
-        <p className="text-gray-500 mb-8 max-w-sm">
-          Demi keamanan, hanya pengguna yang sudah terdaftar yang dapat mengirim pesan ke admin.
-        </p>
-        <Link href="/login">
-          <Button className="bg-[#00288E] hover:bg-[#001859] text-white px-8 py-6 rounded-xl font-bold">
-            Login Sekarang
-          </Button>
-        </Link>
-      </div>
-    );
-  }
 
   return (
     <div className="lg:col-span-3 p-8 md:p-12">

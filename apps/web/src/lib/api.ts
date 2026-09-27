@@ -64,12 +64,11 @@ api.interceptors.response.use(
 );
 
 // Contact Messages
-export const submitContactMessage = async (data: { name: string; phone: string; subject?: string; message: string }, token: string) => {
+export const submitContactMessage = async (data: { name: string; phone: string; subject?: string; message: string }) => {
   const response = await fetch(`${baseURL}/contact`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });
@@ -80,7 +79,6 @@ export const submitContactMessage = async (data: { name: string; phone: string; 
 export const getContactMessages = async (token: string) => {
   const response = await fetch(`${baseURL}/contact`, {
     headers: {
-      Authorization: `Bearer ${token}`,
     },
   });
   if (!response.ok) throw new Error('Gagal memuat pesan');
@@ -91,7 +89,6 @@ export const markContactMessageRead = async (id: string, token: string) => {
   const response = await fetch(`${baseURL}/contact/${id}/read`, {
     method: 'PATCH',
     headers: {
-      Authorization: `Bearer ${token}`,
     },
   });
   if (!response.ok) throw new Error('Gagal menandai pesan');
