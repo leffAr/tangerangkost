@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin, MessageSquare, Clock, Globe, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import ContactForm from './contact-form';
 
 export const metadata = {
   title: 'Hubungi Kami - TangerangKost',
@@ -106,53 +107,7 @@ export default async function ContactPage() {
         <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
           <div className="grid lg:grid-cols-5">
             {/* Form Section */}
-            <div className="lg:col-span-3 p-8 md:p-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Tinggalkan Pesan</h2>
-              <p className="text-gray-500 mb-8">Isi formulir di bawah ini dan kami akan membalas via email secepatnya.</p>
-              
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-semibold text-gray-900">Nama Lengkap</label>
-                    <input 
-                      type="text" 
-                      placeholder="Masukkan nama Anda" 
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00288E]/20 focus:border-[#00288E] transition-all"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-semibold text-gray-900">Alamat Email</label>
-                    <input 
-                      type="email" 
-                      placeholder="email@contoh.com" 
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00288E]/20 focus:border-[#00288E] transition-all"
-                    />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-900">Subjek Pesan</label>
-                  <input 
-                    type="text" 
-                    placeholder="Apa yang ingin Anda tanyakan?" 
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00288E]/20 focus:border-[#00288E] transition-all"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-900">Detail Pesan</label>
-                  <textarea 
-                    rows={5}
-                    placeholder="Tuliskan pesan Anda secara detail..." 
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00288E]/20 focus:border-[#00288E] transition-all resize-none"
-                  ></textarea>
-                </div>
-
-                <Button type="button" className="bg-[#00288E] hover:bg-[#001859] text-white px-8 py-6 rounded-xl font-bold text-lg w-full md:w-auto transition-transform hover:-translate-y-1">
-                  Kirim Pesan <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </form>
-            </div>
+            <ContactForm />
 
             {/* Side Info Section */}
             <div className="lg:col-span-2 bg-gray-900 text-white p-8 md:p-12 relative overflow-hidden">

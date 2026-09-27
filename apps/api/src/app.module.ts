@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ContactModule } from './contact/contact.module';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { PrismaModule } from './prisma/prisma.module';
@@ -18,6 +19,7 @@ import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
+    ContactModule,
     ThrottlerModule.forRoot([{
       ttl: 60000,
       limit: 100, // max 100 requests per minute

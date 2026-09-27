@@ -62,3 +62,37 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+// Contact Messages
+export const submitContactMessage = async (data: { name: string; email: string; subject?: string; message: string }) => {
+  const response = await fetch(`${API_URL}/contact`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error('Gagal mengirim pesan');
+  return response.json();
+};
+
+export const getContactMessages = async (token: string) => {
+  const response = await fetch(`${API_URL}/contact`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) throw new Error('Gagal memuat pesan');
+  return response.json();
+};
+
+export const markContactMessageRead = async (id: string, token: string) => {
+  const response = await fetch(`${API_URL}/contact/${id}/read`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) throw new Error('Gagal menandai pesan');
+  return response.json();
+};
