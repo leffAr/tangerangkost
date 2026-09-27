@@ -70,6 +70,6 @@ export class AuthController {
     const tokens = await this.authService.googleLogin(req.user);
     res.cookie('accessToken', tokens.accessToken, { maxAge: 15 * 60, path: '/' });
     res.cookie('refreshToken', tokens.refreshToken, { maxAge: 7 * 24 * 60 * 60, path: '/' });
-    res.redirect('http://localhost:3001/dashboard');
+    res.redirect(process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/dashboard` : 'https://tangerangkost.vercel.app/dashboard');
   }
 }
