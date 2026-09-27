@@ -76,21 +76,12 @@ export const submitContactMessage = async (data: { name: string; phone: string; 
   return response.json();
 };
 
-export const getContactMessages = async (token: string) => {
-  const response = await fetch(`${baseURL}/contact`, {
-    headers: {
-    },
-  });
-  if (!response.ok) throw new Error('Gagal memuat pesan');
-  return response.json();
+export const getContactMessages = async () => {
+  const { data } = await api.get('/contact');
+  return data;
 };
 
-export const markContactMessageRead = async (id: string, token: string) => {
-  const response = await fetch(`${baseURL}/contact/${id}/read`, {
-    method: 'PATCH',
-    headers: {
-    },
-  });
-  if (!response.ok) throw new Error('Gagal menandai pesan');
-  return response.json();
+export const markContactMessageRead = async (id: string) => {
+  const { data } = await api.patch(`/contact/${id}/read`);
+  return data;
 };

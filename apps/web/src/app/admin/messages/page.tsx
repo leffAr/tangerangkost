@@ -11,9 +11,7 @@ export default function AdminMessagesPage() {
 
   const fetchMessages = async () => {
     try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-      const data = await getContactMessages(token);
+      const data = await getContactMessages();
       setMessages(data);
     } catch (error) {
       console.error(error);
@@ -28,9 +26,7 @@ export default function AdminMessagesPage() {
 
   const handleMarkRead = async (id: string) => {
     try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-      await markContactMessageRead(id, token);
+      await markContactMessageRead(id);
       fetchMessages();
     } catch (error) {
       alert("Gagal menandai pesan");
