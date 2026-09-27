@@ -7,19 +7,21 @@ export class AdminService {
   constructor(private prisma: PrismaService) {}
 
   async getStats() {
-    const [totalUsers, totalOwners, totalKos, pendingVerifications] = await Promise.all([
+    const [totalUsers, totalOwners, totalKos, pendingVerifications, unreadMessages] = await Promise.all([
       this.prisma.user.count({ where: { role: 'USER' } }),
       this.prisma.user.count({ where: { role: 'OWNER' } }),
       this.prisma.kos.count(),
-      this.prisma.ownerProfile.count({ where: { verificationStatus: 'PENDING' } }),
-    ]);
+      this.prisma.ownerProfile.count({ where: { verificationStatus: 'PENDING' } }),,
+        this.prisma.contactMessage.count({ where: { isRead: false } })
+      ]);
 
     return {
-      totalUsers,
-      totalOwners,
-      totalKos,
-      pendingVerifications,
-    };
+        totalUsers,
+        totalOwners,
+        totalKos,
+        pendingVerifications,
+        unreadMessages,
+      };
   }
 
   async getUsers() {
