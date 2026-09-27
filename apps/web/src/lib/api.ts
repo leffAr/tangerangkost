@@ -65,7 +65,7 @@ api.interceptors.response.use(
 
 // Contact Messages
 export const submitContactMessage = async (data: { name: string; email: string; subject?: string; message: string }) => {
-  const response = await fetch(`${API_URL}/contact`, {
+  const response = await fetch(`${baseURL}/contact`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export const submitContactMessage = async (data: { name: string; email: string; 
 };
 
 export const getContactMessages = async (token: string) => {
-  const response = await fetch(`${API_URL}/contact`, {
+  const response = await fetch(`${baseURL}/contact`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -87,7 +87,7 @@ export const getContactMessages = async (token: string) => {
 };
 
 export const markContactMessageRead = async (id: string, token: string) => {
-  const response = await fetch(`${API_URL}/contact/${id}/read`, {
+  const response = await fetch(`${baseURL}/contact/${id}/read`, {
     method: 'PATCH',
     headers: {
       Authorization: `Bearer ${token}`,
