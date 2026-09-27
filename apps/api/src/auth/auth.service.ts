@@ -1,3 +1,4 @@
+import { HttpException } from '@nestjs/common';
 import {
   Injectable,
   UnauthorizedException,
@@ -53,7 +54,7 @@ export class AuthService {
       if (!isPasswordValid) throw new UnauthorizedException('Invalid credentials');
       return await this.generateTokens(user.id, user.email, user.role);
     } catch (e: any) {
-      throw new import('@nestjs/common').HttpException({ message: "DEBUG ERROR", error: e.message, stack: e.stack }, 400);
+      throw new HttpException({ message: "DEBUG ERROR", error: e.message, stack: e.stack }, 400);
     }
   }
 
