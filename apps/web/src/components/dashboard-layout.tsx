@@ -3,9 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, Users, Mail, Building, ShieldCheck, LogOut, ClipboardList, Star, UserCircle, ArrowLeft, MapPin, Settings, Menu, X } from 'lucide-react';
+import { Home, Users, Building, ShieldCheck, LogOut, ClipboardList, Star, UserCircle, ArrowLeft, MapPin, Settings, Menu, X, Mail } from 'lucide-react';
 import { destroyCookie } from 'nookies';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { getUnreadMessageCount } from '@/lib/api';
 
 export default function DashboardLayout({
   children,
@@ -18,6 +19,14 @@ export default function DashboardLayout({
   const router = useRouter();
   const queryClient = useQueryClient();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Realtime Polling for Unread Messages (only for ADMIN)
+  const { data: unreadCount = 0 } = useQuery({
+    queryKey: ['unread-messages'],
+    queryFn: getUnreadMessageCount,
+    enabled: role === 'ADMIN',
+    refetchInterval: 5000, // Poll every 5 seconds for real-time feel
+  });
 
   const userLinks = [
     { name: 'Pencarian Kos', href: '/search', icon: Home },
@@ -44,12 +53,11 @@ export default function DashboardLayout({
 
   const links = role === 'ADMIN' ? adminLinks : role === 'OWNER' ? ownerLinks : userLinks;
 
-  // 3 Primary links for the bottom tab bar (the 4th will be the Menu button)
   const mobileTabLinks = role === 'ADMIN'
     ? [
         { name: 'Overview', href: '/admin', icon: Home },
-        { name: 'User', href: '/admin/users', icon: Users },
         { name: 'Kos', href: '/admin/kos', icon: Building },
+        { name: 'Pesan', href: '/admin/messages', icon: Mail },
       ]
     : role === 'OWNER'
     ? [
@@ -66,7 +74,6 @@ export default function DashboardLayout({
   const handleLogout = () => {
     destroyCookie(null, 'accessToken', { path: '/' });
     destroyCookie(null, 'refreshToken', { path: '/' });
-    // Membersihkan state user dari React Query cache agar tidak nyangkut
     queryClient.clear();
     router.push('/login');
   };
@@ -95,7 +102,7 @@ export default function DashboardLayout({
         />
       )}
 
-      {/* Sidebar (Drawer on Mobile, Sticky on Desktop) */}
+      {/* Sidebar */}
       <aside className={`
         fixed inset-y-0 left-0 z-50 w-72 bg-white border-r flex flex-col shadow-2xl
         transform transition-transform duration-300 ease-in-out
@@ -114,19 +121,27 @@ export default function DashboardLayout({
           {links.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;
+            const isMessageTab = link.name === 'Pesan Masuk';
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors ${
+                className={`flex items-center justify-between px-4 py-3 rounded-md transition-colors ${
                   isActive
                     ? 'bg-[#00288E] text-white shadow-sm md:shadow-none'
                     : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
-                <Icon className="w-5 h-5" />
-                {link.name}
+                <div className="flex items-center gap-3">
+                  <Icon className="w-5 h-5" />
+                  {link.name}
+                </div>
+                {isMessageTab && unreadCount > 0 && (
+                  <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    {unreadCount}
+                  </span>
+                )}
               </Link>
             );
           })}
@@ -153,12 +168,13 @@ export default function DashboardLayout({
           {mobileTabLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;
+            const isMessageTab = link.name === 'Pesan';
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`flex flex-col items-center justify-center min-w-[64px] py-2 px-1 transition-all group ${
+                className={`flex flex-col items-center justify-center min-w-[64px] py-2 px-1 transition-all group relative ${
                   isActive ? 'text-[#00288E]' : 'text-gray-400 hover:text-gray-600'
                 }`}
               >
@@ -166,6 +182,11 @@ export default function DashboardLayout({
                   isActive ? 'bg-blue-100/50' : 'bg-transparent group-hover:bg-gray-50'
                 }`}>
                   <Icon className={`w-5 h-5 transition-transform duration-300 ${isActive ? 'scale-110 stroke-[2.5px]' : 'scale-100'}`} />
+                  {isMessageTab && unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white border-2 border-white">
+                      {unreadCount}
+                    </span>
+                  )}
                 </div>
                 <span className={`text-[10px] mt-1 font-medium text-center leading-tight truncate w-full px-1 ${
                   isActive ? 'font-bold' : ''
@@ -176,7 +197,6 @@ export default function DashboardLayout({
             );
           })}
 
-          {/* Menu Toggle Button */}
           <button
             onClick={() => setIsMobileMenuOpen(true)}
             className={`flex flex-col items-center justify-center min-w-[64px] py-2 px-1 transition-all group ${

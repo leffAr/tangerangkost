@@ -22,6 +22,13 @@ export class ContactController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
+  @Get('unread-count')
+  getUnreadCount() {
+    return this.contactService.getUnreadCount();
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
   @Patch(':id/read')
   markAsRead(@Param('id') id: string) {
     return this.contactService.markAsRead(id);

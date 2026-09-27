@@ -17,6 +17,13 @@ export class ContactService {
     });
   }
 
+  async getUnreadCount() {
+    const count = await this.prisma.contactMessage.count({
+      where: { isRead: false },
+    });
+    return { count };
+  }
+
   async markAsRead(id: string) {
     return this.prisma.contactMessage.update({
       where: { id },

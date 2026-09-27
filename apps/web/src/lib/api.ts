@@ -85,3 +85,8 @@ export const markContactMessageRead = async (id: string) => {
   const { data } = await api.patch(`/contact/${id}/read`);
   return data;
 };
+
+export const getUnreadMessageCount = async () => {
+  const { data } = await api.get('/contact/unread-count');
+  return data.count;
+};
