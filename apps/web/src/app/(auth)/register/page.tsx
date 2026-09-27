@@ -130,7 +130,7 @@ function RegisterForm() {
 
           <button 
             type="button" 
-            onClick={() => window.location.href = 'http://192.168.137.1:3000/api/v1/auth/google'}
+            onClick={() => window.location.href = 'https://tangerangkost.onrender.com/api/v1/auth/google'}
             className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 p-3 rounded-lg font-semibold transition-all hover:shadow-sm"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">

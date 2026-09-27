@@ -96,7 +96,7 @@ export default function PopularAreasAdminPage() {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
-      setFormData(prev => ({ ...prev, imageUrl: `http://192.168.137.1:3000${res.data.url}` }));
+      setFormData(prev => ({ ...prev, imageUrl: `https://tangerangkost.onrender.com${res.data.url}` }));
       toast.success('Foto berhasil diupload');
     } catch (error) {
       toast.error('Gagal upload foto');
@@ -191,7 +191,7 @@ export default function PopularAreasAdminPage() {
           {areas?.map((area: any) => (
             <Card key={area.id} className={`overflow-hidden group border-0 shadow-sm hover:shadow-md transition-all ${!area.isActive && 'opacity-60 grayscale-[50%]'}`}>
               <div className="h-40 w-full bg-gray-100 relative">
-                <img src={area.imageUrl.startsWith('/') ? `http://192.168.137.1:3000${area.imageUrl}` : area.imageUrl} alt={area.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src={area.imageUrl.startsWith('/') ? `https://tangerangkost.onrender.com${area.imageUrl}` : area.imageUrl} alt={area.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-black/40"></div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
                   <h3 className="text-white font-bold text-center drop-shadow-md mb-2">{area.name}</h3>

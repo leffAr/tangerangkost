@@ -10,7 +10,7 @@ export const metadata = {
 
 async function getContactSettings() {
   try {
-    const res = await fetch('http://192.168.137.1:3000/api/v1/settings/contact', { next: { revalidate: 60 } });
+    const res = await fetch('https://tangerangkost.onrender.com/api/v1/settings/contact', { next: { revalidate: 60 } });
     if (!res.ok) throw new Error('Failed to fetch settings');
     return await res.json();
   } catch (error) {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { parseCookies, setCookie, destroyCookie } from 'nookies';
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://192.168.137.1:3000/api/v1';
+const baseURL = process.env.NEXT_PUBLIC_API_URL || 'https://tangerangkost.onrender.com/api/v1';
 
 export const api = axios.create({
   baseURL,

@@ -278,7 +278,7 @@ export default function AdminSettingsPage() {
                 {heroSlides.map((slide, idx) => (
                   <div key={idx} className="relative group aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
                     <img 
-                      src={slide.startsWith('http') ? slide : `http://192.168.137.1:3000${slide}`} 
+                      src={slide.startsWith('http') ? slide : `https://tangerangkost.onrender.com${slide}`} 
                       alt={`Slide ${idx+1}`} 
                       className="w-full h-full object-cover"
                     />
@@ -366,7 +366,7 @@ export default function AdminSettingsPage() {
                 <div className="w-full md:w-1/2 aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center relative">
                   {aboutImage ? (
                     <img 
-                      src={aboutImage.startsWith('http') ? aboutImage : `http://192.168.137.1:3000${aboutImage}`} 
+                      src={aboutImage.startsWith('http') ? aboutImage : `https://tangerangkost.onrender.com${aboutImage}`} 
                       alt="Tentang Kami" 
                       className="w-full h-full object-cover"
                     />

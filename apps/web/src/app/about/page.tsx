@@ -9,7 +9,7 @@ export const metadata = {
 
 async function getAboutImage() {
   try {
-    const res = await fetch('http://192.168.137.1:3000/api/v1/settings/about', {
+    const res = await fetch('https://tangerangkost.onrender.com/api/v1/settings/about', {
       next: { revalidate: 0 }
     });
     const data = await res.json();
@@ -21,7 +21,7 @@ async function getAboutImage() {
 
 export default async function AboutPage() {
   const dynamicImageUrl = await getAboutImage();
-  const finalImageUrl = dynamicImageUrl.startsWith('http') ? dynamicImageUrl : `http://192.168.137.1:3000${dynamicImageUrl}`;
+  const finalImageUrl = dynamicImageUrl.startsWith('http') ? dynamicImageUrl : `https://tangerangkost.onrender.com${dynamicImageUrl}`;
 
   return (
     <div className="min-h-screen bg-gray-50">

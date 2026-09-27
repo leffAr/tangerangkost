@@ -66,7 +66,7 @@ function PopularAreasGrid() {
     <>
       {displayAreas.map((area: any, idx: number) => (
         <Link key={idx} href={`/search?location=${encodeURIComponent(area.name.replace('Kost ', '').replace('Kos ', ''))}`} className="group relative h-40 md:h-56 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all">
-          <img src={area.imageUrl.startsWith('/') ? `http://192.168.137.1:3000${area.imageUrl}` : area.imageUrl} alt={area.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <img src={area.imageUrl.startsWith('/') ? `https://tangerangkost.onrender.com${area.imageUrl}` : area.imageUrl} alt={area.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors"></div>
           <div className="absolute inset-0 flex items-center justify-center">
             <h3 className="text-white font-bold text-lg md:text-xl text-center px-4 drop-shadow-md">{area.name}</h3>
@@ -216,7 +216,7 @@ export default function Home() {
             key={index}
             className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
           >
-            <img src={img.startsWith('http') ? img : `http://192.168.137.1:3000${img}`} alt={`Slide ${index}`} className="w-full h-full object-cover" />
+            <img src={img.startsWith('http') ? img : `https://tangerangkost.onrender.com${img}`} alt={`Slide ${index}`} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-[#00288E]/80 mix-blend-multiply"></div>
             <div className="absolute inset-0 bg-gradient-to-t from-[#001859] via-transparent to-[#00288E]/50"></div>
           </div>
@@ -346,7 +346,7 @@ export default function Home() {
                   <Card className="overflow-hidden border-0 shadow-sm hover:shadow-2xl transition-all duration-300 rounded-2xl bg-white hover:-translate-y-1 h-full">
                     <div className="aspect-[4/3] bg-gray-200 relative overflow-hidden">
                       {kos.kosImages?.[0] ? (
-                        <img src={`http://192.168.137.1:3000${kos.kosImages[0].url}`} alt={kos.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <img src={`https://tangerangkost.onrender.com${kos.kosImages[0].url}`} alt={kos.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       ) : (
                         <div className="absolute inset-0 bg-gradient-to-tr from-blue-300 to-indigo-200 group-hover:scale-105 transition-transform duration-500"></div>
                       )}

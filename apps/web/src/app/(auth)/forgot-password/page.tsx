@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
                 <div className="mt-6">
                   <button
                     type="button"
-                    onClick={() => window.location.href = 'http://192.168.137.1:3000/api/v1/auth/google'}
+                    onClick={() => window.location.href = 'https://tangerangkost.onrender.com/api/v1/auth/google'}
                     className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
                   >
                     <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">

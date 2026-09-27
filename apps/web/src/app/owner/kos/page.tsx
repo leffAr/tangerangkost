@@ -79,7 +79,7 @@ export default function OwnerKosListPage() {
             <Card key={kos.id} className="overflow-hidden hover:shadow-xl transition-all flex flex-col h-full border border-gray-100 bg-white">
               {kos.kosImages?.[0] ? (
                 <div className="aspect-[4/3] sm:aspect-video w-full bg-gray-100 overflow-hidden relative">
-                  <img src={kos.kosImages[0].url.startsWith('http') ? kos.kosImages[0].url : `http://192.168.137.1:3000${kos.kosImages[0].url}`} alt={kos.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src={kos.kosImages[0].url.startsWith('http') ? kos.kosImages[0].url : `https://tangerangkost.onrender.com${kos.kosImages[0].url}`} alt={kos.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
               ) : (
                 <div className="aspect-[4/3] sm:aspect-video w-full bg-gray-50 flex items-center justify-center text-gray-300 border-b border-gray-100">

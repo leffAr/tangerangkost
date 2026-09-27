@@ -349,7 +349,7 @@ export default function EditKosPage() {
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                       {existingImages.map((img) => (
                         <div key={img.id} className="relative aspect-video rounded-lg overflow-hidden border border-gray-200 shadow-sm group bg-gray-50">
-                          <img src={`http://192.168.137.1:3000${img.url}`} alt="Kos" className="w-full h-full object-cover" />
+                          <img src={`https://tangerangkost.onrender.com${img.url}`} alt="Kos" className="w-full h-full object-cover" />
                           <button 
                             type="button" 
                             onClick={(e) => { 
