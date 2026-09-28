@@ -13,6 +13,14 @@ export class ContactController {
     return this.contactService.create(data);
   }
 
+  @Get('debug-env')
+  getDebugEnv() {
+    return {
+      keys: Object.keys(process.env).filter(k => k.includes('GOOGLE') || k.includes('JWT') || k.includes('DATABASE')),
+      allKeys: Object.keys(process.env)
+    };
+  }
+
   @Get('debug')
   getDebug() {
     return {
