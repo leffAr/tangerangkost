@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useRouter, useParams } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
-import { MapPin, Building, Info, DollarSign, Image as ImageIcon, Map, Crosshair, Snowflake, BedDouble, Bath, Server, Monitor, Sparkles, CheckSquare, Square, X, ArrowLeft } from 'lucide-react';
+import { MapPin, Building, Info, DollarSign, Image as ImageIcon, Map, Crosshair, Snowflake, BedDouble, Bath, Server, Monitor, Sparkles, CheckSquare, Square, X, ArrowLeft, AlertTriangle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 
@@ -31,6 +31,7 @@ export default function EditKosPage() {
   });
   const [files, setFiles] = useState<File[]>([]);
   const [existingImages, setExistingImages] = useState<any[]>([]);
+  const [imageToDelete, setImageToDelete] = useState<string | null>(null);
 
   const STANDARD_FACILITIES = [
     { name: 'AC Terpasang', icon: Snowflake },
@@ -127,14 +128,16 @@ export default function EditKosPage() {
     loadKos();
   }, [id, router]);
 
-  const handleDeleteExistingImage = async (imageId: string) => {
-    if (!confirm('Hapus foto ini?')) return;
+  const confirmDeleteImage = async () => {
+    if (!imageToDelete) return;
     try {
-      await api.post(`/kos/${id}/images/${imageId}/delete`);
-      setExistingImages(prev => prev.filter(img => img.id !== imageId));
+      await api.post(`/kos/${id}/images/${imageToDelete}/delete`);
+      setExistingImages(prev => prev.filter(img => img.id !== imageToDelete));
       toast.success('Foto berhasil dihapus!');
+      setImageToDelete(null);
     } catch (error) {
       toast.error('Gagal menghapus foto');
+      setImageToDelete(null);
     }
   };
 
@@ -354,7 +357,7 @@ export default function EditKosPage() {
                             type="button" 
                             onClick={(e) => { 
                               e.preventDefault(); 
-                              handleDeleteExistingImage(img.id);
+                              setImageToDelete(img.id);
                             }} 
                             className="absolute top-2 right-2 bg-white/90 hover:bg-red-500 hover:text-white text-gray-700 p-1.5 rounded-full transition-colors shadow-sm"
                           >
@@ -393,6 +396,39 @@ export default function EditKosPage() {
           {isSubmitting ? 'Menyimpan...' : 'Simpan Perubahan'}
         </Button>
       </form>
+    
+      {/* Delete Image Modal */}
+      {imageToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="p-6 text-center">
+              <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
+                <AlertTriangle className="w-8 h-8 text-red-500" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Hapus Foto?</h3>
+              <p className="text-sm text-gray-500">
+                Tindakan ini tidak dapat dibatalkan. Foto akan dihapus secara permanen dari galeri kos Anda.
+              </p>
+            </div>
+            <div className="flex border-t border-gray-100">
+              <button
+                type="button"
+                onClick={() => setImageToDelete(null)}
+                className="flex-1 py-4 text-sm font-semibold text-gray-500 hover:bg-gray-50 transition-colors border-r border-gray-100"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={confirmDeleteImage}
+                className="flex-1 py-4 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors"
+              >
+                Ya, Hapus
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
