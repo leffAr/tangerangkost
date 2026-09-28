@@ -62,7 +62,7 @@ export default async function AboutPage() {
               <div className="absolute -top-8 -right-8 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply blur-3xl opacity-70 z-0 hidden md:block"></div>
               
               {/* Floating Badge */}
-              <div className="absolute right-4 -bottom-6 md:right-auto md:-right-6 md:top-1/4 md:-bottom-auto bg-white p-3 md:p-4 rounded-xl md:rounded-2xl shadow-xl z-20 flex items-center gap-3 md:gap-4 border border-gray-100 animate-in zoom-in duration-1000 delay-300 scale-90 md:scale-100 origin-bottom-right md:origin-center">
+              <div className="absolute right-4 -bottom-6 md:right-auto md:-right-6 md:top-1/4 md:-bottom-auto bg-white p-3 md:p-4 rounded-xl md:rounded-2xl shadow-xl z-20 flex items-center gap-3 md:gap-4 border border-gray-100 animate-in zoom-in duration-1000 delay-300 scale-90 md:scale-75 origin-bottom-right md:origin-right">
                 <div className="w-12 h-12 bg-blue-50 text-[#00288E] rounded-xl flex items-center justify-center">
                   <Users className="w-6 h-6" />
                 </div>
