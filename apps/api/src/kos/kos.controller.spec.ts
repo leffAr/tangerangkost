@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { KosController } from './kos.controller.js';
+import { KosController } from './kos.controller';
 
 describe('KosController', () => {
   let controller: KosController;
