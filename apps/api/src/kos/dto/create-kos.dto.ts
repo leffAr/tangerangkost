@@ -41,4 +41,6 @@ export class CreateKosDto {
   @ApiPropertyOptional({ type: [String] })
   @IsOptional()
   facilities?: string[];
+
+  @ApiPropertyOptional() @IsNumber() @IsOptional() availableRooms?: number;
 }
