@@ -123,6 +123,7 @@ model Kos {
   priceTo     Decimal       @db.Decimal(10, 2)
   genderType  GenderType
   kosType     KosType       @default(STANDAR)
+  availableRooms Int        @default(0)
   rules       String?       @db.Text
   phone       String?
   whatsapp    String?
