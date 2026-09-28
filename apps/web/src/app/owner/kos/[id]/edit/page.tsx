@@ -27,7 +27,8 @@ export default function EditKosPage() {
     genderType: 'CAMPUR',
     latitude: '',
     longitude: '',
-    facilities: [] as string[]
+    facilities: [] as string[],
+    availableRooms: 0
   });
   const [files, setFiles] = useState<File[]>([]);
   const [existingImages, setExistingImages] = useState<any[]>([]);
@@ -119,7 +120,8 @@ export default function EditKosPage() {
           genderType: data.genderType || 'CAMPUR',
           latitude: data.latitude?.toString() || '',
           longitude: data.longitude?.toString() || '',
-          facilities: data.facilities?.map((f: any) => f.facility.name) || []
+          facilities: data.facilities?.map((f: any) => f.facility.name) || [],
+          availableRooms: data.availableRooms || 0
         });
       } catch (err) {
         toast.error('Gagal memuat data kos');
@@ -235,6 +237,13 @@ export default function EditKosPage() {
                 </div>
               </div>
             </div>
+              <div className="pt-6 border-t border-gray-100 mt-6">
+                <div className="w-full md:w-1/2">
+                  <label className="block text-sm font-semibold text-[#00288E] mb-2">Total Kamar Kosong (Ready)</label>
+                  <input type="number" min="0" required className="w-full border-2 border-green-200 bg-green-50 p-3 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all font-bold text-lg" placeholder="Contoh: 5" value={formData.availableRooms || ''} onChange={e => setFormData({...formData, availableRooms: parseInt(e.target.value) || 0})} />
+                  <p className="text-xs text-gray-500 mt-2">Jumlah ini akan langsung ditampilkan dengan pita hijau cantik di foto kos Anda.</p>
+                </div>
+              </div>
           </CardContent>
         </Card>
 
