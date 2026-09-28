@@ -13,6 +13,14 @@ export class ContactController {
     return this.contactService.create(data);
   }
 
+  @Get('debug')
+  getDebug() {
+    return {
+      clientId: process.env.GOOGLE_CLIENT_ID || 'undefined',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'undefined'
+    };
+  }
+
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
   @Get()
