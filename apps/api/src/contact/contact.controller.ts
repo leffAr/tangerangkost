@@ -13,6 +13,21 @@ export class ContactController {
     return this.contactService.create(data);
   }
 
+  @Get('debug2')
+  getDebug2() {
+    const cid = process.env.GOOGLE_CLIENT_ID;
+    const cidKey = Object.keys(process.env).find(k => k.includes('GOOGLE_CLIENT_ID'));
+    return {
+      cid_value: cid,
+      cid_type: typeof cid,
+      cid_length: cid ? cid.length : 0,
+      cid_key_found: cidKey,
+      cid_key_length: cidKey ? cidKey.length : 0,
+      cidKey_hex: cidKey ? Buffer.from(cidKey).toString('hex') : null,
+      val_hex: cid ? Buffer.from(cid).toString('hex') : null
+    };
+  }
+
   @Get('debug-env')
   getDebugEnv() {
     return {
