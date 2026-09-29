@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Search, MapPin, Star, Sparkles, Building, ArrowRight, Navigation, MessageCircle, CheckCircle, Smartphone, UserCheck, ChevronDown } from 'lucide-react';
