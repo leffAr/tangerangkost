@@ -146,9 +146,13 @@ function SearchContent() {
                       {kos.genderType}
                       </Badge>
                       {(kos.availableRooms && kos.availableRooms > 0) ? (
-                        <Badge className="absolute top-3 right-3 bg-green-500/90 backdrop-blur-sm text-white hover:bg-green-600 shadow-sm border-0 font-bold">
-                          Sisa {kos.availableRooms} Kamar
-                        </Badge>
+                        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md border border-gray-100/50 px-2.5 py-1.5 rounded-lg text-[11px] font-bold text-gray-700 shadow-sm flex items-center gap-1.5 z-10">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                          </span>
+                          Tersedia {kos.availableRooms} Kamar
+                        </div>
                       ) : null}
                   </div>
                   <CardContent className="p-5">
