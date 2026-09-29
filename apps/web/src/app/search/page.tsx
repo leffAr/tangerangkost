@@ -144,7 +144,12 @@ function SearchContent() {
                     )}
                     <Badge className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-[#00288E] hover:bg-white shadow-sm border-0 font-bold">
                       {kos.genderType}
-                    </Badge>
+                      </Badge>
+                      {(kos.availableRooms && kos.availableRooms > 0) ? (
+                        <Badge className="absolute top-3 right-3 bg-green-500/90 backdrop-blur-sm text-white hover:bg-green-600 shadow-sm border-0 font-bold">
+                          Sisa {kos.availableRooms} Kamar
+                        </Badge>
+                      ) : null}
                   </div>
                   <CardContent className="p-5">
                     <h3 className="font-bold text-lg text-gray-900 line-clamp-1 group-hover:text-[#00288E] transition-colors mb-1">{kos.name}</h3>

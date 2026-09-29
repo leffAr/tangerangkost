@@ -355,7 +355,12 @@ export default function Home() {
                       
                       <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-[#00288E] shadow-sm uppercase">
                         {kos.genderType}
-                      </div>
+                        </div>
+                        {(kos.availableRooms && kos.availableRooms > 0) ? (
+                          <div className="absolute top-3 right-3 bg-green-500/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-white shadow-sm">
+                            Sisa {kos.availableRooms} Kamar
+                          </div>
+                        ) : null}
                     </div>
                     <CardContent className="p-5">
                       <div className="flex justify-between items-start mb-3">
