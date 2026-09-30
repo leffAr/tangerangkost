@@ -366,7 +366,7 @@ export default function Home() {
                             Tersedia {kos.availableRooms} Kamar
                           </div>
                         ) : null}
-                        <FavoriteButton kosId={kos.id} className=\"absolute bottom-3 right-3 z-20 hover:scale-110 active:scale-95\" />
+                        <FavoriteButton kosId={kos.id} className="absolute bottom-3 right-3 z-20 hover:scale-110 active:scale-95" />
                       </div>
                       <CardContent className="p-5">
                       <div className="flex justify-between items-start mb-3">

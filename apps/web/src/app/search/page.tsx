@@ -3,6 +3,7 @@
 export const dynamic = 'force-dynamic';
 
 import { useState, useEffect, Suspense } from 'react';
+import { FavoriteButton } from '@/components/kos/FavoriteButton';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { Card, CardContent } from '@/components/ui/card';
@@ -154,7 +155,7 @@ function SearchContent() {
                           Tersedia {kos.availableRooms} Kamar
                         </div>
                       ) : null}
-                        <FavoriteButton kosId={kos.id} className=\"absolute bottom-3 right-3 z-20 hover:scale-110 active:scale-95\" />
+                        <FavoriteButton kosId={kos.id} className="absolute bottom-3 right-3 z-20 hover:scale-110 active:scale-95" />
                       </div>
                       <CardContent className="p-5">
                     <h3 className="font-bold text-lg text-gray-900 line-clamp-1 group-hover:text-[#00288E] transition-colors mb-1">{kos.name}</h3>

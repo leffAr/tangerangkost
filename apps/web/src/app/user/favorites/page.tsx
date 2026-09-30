@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { MapPin, Heart } from 'lucide-react';
 import { FavoriteButton } from '@/components/kos/FavoriteButton';
-import { useAuth } from '@/hooks/useAuth'; // Note: if hook doesn't exist, I will use nookies
+ // Note: if hook doesn't exist, I will use nookies
 import { parseCookies } from 'nookies';
 
 export default function UserFavoritesPage() {
