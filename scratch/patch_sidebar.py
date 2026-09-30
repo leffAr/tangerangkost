@@ -1,21 +1,23 @@
 import re
 
-with open('apps/web/src/components/dashboard-layout.tsx', 'r', encoding='utf-8') as f:
+path_layout = 'apps/web/src/components/dashboard-layout.tsx'
+with open(path_layout, 'r', encoding='utf-8') as f:
     content = f.read()
 
-# Add Mail icon import if missing
-if 'Mail' not in content:
-    content = content.replace("import { Home, Users", "import { Home, Users, Mail")
+# Add Heart to lucide-react imports if missing
+if ' Heart' not in content:
+    content = content.replace(
+        "import { Home, Users, Building, ShieldCheck, LogOut, ClipboardList, Star, UserCircle, ArrowLeft, MapPin, Settings, Menu, X, Mail } from 'lucide-react';",
+        "import { Home, Users, Building, ShieldCheck, LogOut, ClipboardList, Star, UserCircle, ArrowLeft, MapPin, Settings, Menu, X, Mail, Heart } from 'lucide-react';"
+    )
 
-# Add Pesan Masuk to adminLinks
-pattern = r"const adminLinks = \[\n(.*?)\n  \];"
+# Add Favorites to userLinks
+target = r"const userLinks = \[\s*\{ name: 'Pencarian Kos', href: '/search', icon: Home \},\s*\{ name: 'Pesanan Saya', href: '/user', icon: ClipboardList \},"
+replacement = r"""const userLinks = [
+    { name: 'Pencarian Kos', href: '/search', icon: Home },
+    { name: 'Pesanan Saya', href: '/user', icon: ClipboardList },
+    { name: 'Kos Tersimpan', href: '/user/favorites', icon: Heart },"""
+content = re.sub(target, replacement, content)
 
-replacement = """const adminLinks = [
-\\1
-    { name: 'Pesan Masuk', href: '/admin/messages', icon: Mail },
-  ];"""
-
-new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-
-with open('apps/web/src/components/dashboard-layout.tsx', 'w', encoding='utf-8') as f:
-    f.write(new_content)
+with open(path_layout, 'w', encoding='utf-8') as f:
+    f.write(content)

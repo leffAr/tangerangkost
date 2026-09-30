@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, Users, Building, ShieldCheck, LogOut, ClipboardList, Star, UserCircle, ArrowLeft, MapPin, Settings, Menu, X, Mail } from 'lucide-react';
+import { Home, Users, Building, ShieldCheck, LogOut, ClipboardList, Star, UserCircle, ArrowLeft, MapPin, Settings, Menu, X, Mail, Heart } from 'lucide-react';
 import { destroyCookie } from 'nookies';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { getUnreadMessageCount } from '@/lib/api';
@@ -31,6 +31,7 @@ export default function DashboardLayout({
   const userLinks = [
     { name: 'Pencarian Kos', href: '/search', icon: Home },
     { name: 'Pesanan Saya', href: '/user', icon: ClipboardList },
+    { name: 'Kos Tersimpan', href: '/user/favorites', icon: Heart },
     { name: 'Profil', href: '/user/profile', icon: UserCircle },
   ];
 
