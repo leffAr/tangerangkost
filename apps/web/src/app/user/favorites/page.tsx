@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
-import { MapPin, Heart } from 'lucide-react';
+import { MapPin, Heart, ArrowLeft } from 'lucide-react';
 import { FavoriteButton } from '@/components/kos/FavoriteButton';
  // Note: if hook doesn't exist, I will use nookies
 import { parseCookies } from 'nookies';
@@ -37,6 +37,10 @@ export default function UserFavoritesPage() {
 
   return (
     <div>
+      <Link href="/user" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-[#00288E] transition-colors mb-4">
+        <ArrowLeft className="w-4 h-4 mr-2" />
+        Kembali ke Dashboard
+      </Link>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
           <Heart className="w-6 h-6 text-red-500 fill-red-500" /> Kos Tersimpan

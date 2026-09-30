@@ -5,7 +5,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
 import toast from 'react-hot-toast';
-import { UserCircle } from 'lucide-react';
+import { UserCircle, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 export default function UserProfilePage() {
   const [formData, setFormData] = useState({
@@ -75,6 +76,10 @@ export default function UserProfilePage() {
 
   return (
     <div className="max-w-2xl mx-auto py-8">
+        <Link href="/user" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-[#00288E] transition-colors mb-4">
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Kembali ke Dashboard
+        </Link>
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Profil Saya</h1>
         <p className="text-gray-500">Kelola informasi pribadi dan keamanan akun Anda.</p>
