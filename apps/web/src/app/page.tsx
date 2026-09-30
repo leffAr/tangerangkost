@@ -433,7 +433,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">
-              Mengapa Memilih <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00288E] to-blue-500">TangerangKost?</span>
+              Mengapa Memilih <span className="text-[#00288E]">TangerangKost?</span>
             </h2>
             <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto font-light">
               Platform pencarian kost terbaik yang menghubungkan Anda langsung dengan pemilik kost di seluruh wilayah Kabupaten Tangerang.
@@ -600,7 +600,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
               {/* Brand Col */}
               <div className="space-y-4">
-                <h2 className="text-3xl font-black tracking-tight text-white mb-4">Tangerang<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Kost</span></h2>
+                <h2 className="text-3xl font-black tracking-tight text-white mb-4">TangerangKost</h2>
                 <p className="text-slate-400 leading-relaxed font-light">
                   Platform direktori kost nomor satu di Kabupaten Tangerang. Temukan hunian nyaman, aman, dan strategis dengan mudah hanya dalam genggaman.
                 </p>
