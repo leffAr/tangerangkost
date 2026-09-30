@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Trash2, Shield, User, Store, Edit3, X, Save } from 'lucide-react';
+import { ArrowLeft, Trash2, Shield, User, Store, Edit3, X, Save, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
@@ -102,6 +102,17 @@ export default function AdminUsersPage() {
                 <div className="overflow-hidden flex-1 mr-2">
                   <h3 className="font-bold text-gray-900 truncate" title={user.name}>{user.name}</h3>
                   <p className="text-sm text-gray-500 truncate" title={user.email}>{user.email}</p>
+                    {user.phone && user.role === 'OWNER' && (
+                      <a 
+                        href={`https://wa.me/${user.phone.replace(/[^0-9]/g, '').replace(/^0/, '62')}`} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold text-green-700 bg-green-100 hover:bg-green-200 px-2 py-1 rounded-md w-fit transition-colors"
+                      >
+                        <MessageCircle className="w-3 h-3" />
+                        Chat via WA ({user.phone})
+                      </a>
+                    )}
                 </div>
                 <div className="flex flex-col items-end gap-2 shrink-0">
                   <Badge variant="outline" className={`shrink-0 ${

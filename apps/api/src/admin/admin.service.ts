@@ -27,12 +27,13 @@ export class AdminService {
   async getUsers() {
     return this.prisma.user.findMany({
       select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-      }
+          id: true,
+          name: true,
+          email: true,
+          phone: true,
+          role: true,
+          createdAt: true,
+        }
     });
   }
 
