@@ -48,34 +48,13 @@ export class KosImagesController {
       },
     },
   })
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, cb) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          cb(null, `${uniqueSuffix}${ext}`);
-        },
-      }),
-      fileFilter: (req, file, cb) => {
-        if (!file.mimetype.startsWith('image/')) {
-          return cb(
-            new BadRequestException(`Only image files are allowed! Received: ${file.mimetype}`),
-            false,
-          );
-        }
-        cb(null, true);
-      },
-    }),
-  )
+  @ApiBody({ schema: { type: 'object', properties: { url: { type: 'string' } } } })
   async uploadImage(
     @CurrentUser() user: User,
     @Param('kosId') kosId: string,
-    @UploadedFile() file: Express.Multer.File,
+    @Body('url') url: string,
   ) {
-    if (!file) throw new BadRequestException('File is required');
+    if (!url) throw new BadRequestException('Image URL is required');
 
     const kos = await this.prisma.kos.findUnique({
       where: { id: kosId },
@@ -86,7 +65,7 @@ export class KosImagesController {
     if (kos.owner.userId !== user.id)
       throw new ForbiddenException('Not authorized');
 
-    const url = `/uploads/${file.filename}`;
+    
 
     const existingImages = await this.prisma.kosImage.count({
       where: { kosId },

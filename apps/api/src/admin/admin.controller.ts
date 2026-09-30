@@ -79,17 +79,9 @@ export class AdminController {
   }
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file', {
-    storage: diskStorage({
-      destination: './uploads',
-      filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, 'admin-' + uniqueSuffix + extname(file.originalname));
-      }
-    })
-  }))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    if (!file) throw new BadRequestException('File is required');
-    return { url: `/uploads/${file.filename}` };
+  @Post('upload')
+  uploadFile(@Body('url') url: string) {
+    if (!url) throw new BadRequestException('URL is required');
+    return { url };
   }
 }

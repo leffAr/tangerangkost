@@ -168,15 +168,29 @@ export default function EditKosPage() {
       await api.patch(`/kos/${id}`, payload);
 
       // 2. Upload Images if exist
-      if (files.length > 0) {
-        for (const f of files) {
-          const uploadData = new FormData();
-          uploadData.append('file', f);
-          await api.post(`/kos/${id}/images`, uploadData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-          });
+              if (files.length > 0) {
+          for (const f of files) {
+            // Upload directly to ImgBB
+            const imgbbData = new FormData();
+            imgbbData.append('image', f);
+            
+            const imgbbRes = await fetch('https://api.imgbb.com/1/upload?key=23c0298fe962b4594f78729f4569a226', {
+              method: 'POST',
+              body: imgbbData
+            });
+            const imgbbJson = await imgbbRes.json();
+            
+            if (imgbbJson.success) {
+              // Send the permanent ImgBB URL to our backend
+              await api.post(
+                id ? `/kos/${id}/images` : `/kos/${kosId}/images`, 
+                { url: imgbbJson.data.url }
+              );
+            } else {
+              toast.error('Gagal mengunggah foto ke server penyimpanan');
+            }
+          }
         }
-      }
 
       toast.success('Kos berhasil diperbarui!', { id: toastId });
       queryClient.invalidateQueries({ queryKey: ['owner-koses'] });
@@ -361,7 +375,7 @@ export default function EditKosPage() {
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                       {existingImages.map((img) => (
                         <div key={img.id} className="relative aspect-video rounded-lg overflow-hidden border border-gray-200 shadow-sm group bg-gray-50">
-                          <img src={`https://tangerangkost.onrender.com${img.url}`} alt="Kos" className="w-full h-full object-cover" />
+                          <img src={img.url.startsWith('http') ? img.url : `https://tangerangkost.onrender.com${img.url}`} alt="Kos" className="w-full h-full object-cover" />
                           <button 
                             type="button" 
                             onClick={(e) => { 

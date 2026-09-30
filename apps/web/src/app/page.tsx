@@ -348,7 +348,7 @@ export default function Home() {
                   <Card className="overflow-hidden border-0 shadow-sm hover:shadow-2xl transition-all duration-300 rounded-2xl bg-white hover:-translate-y-1 h-full">
                     <div className="aspect-[4/3] bg-gray-200 relative overflow-hidden">
                       {kos.kosImages?.[0] ? (
-                        <img src={`https://tangerangkost.onrender.com${kos.kosImages[0].url}`} alt={kos.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <img src={kos.kosImages[0].url.startsWith('http') ? kos.kosImages[0].url : `https://tangerangkost.onrender.com${kos.kosImages[0].url}`} alt={kos.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       ) : (
                         <div className="absolute inset-0 bg-gradient-to-tr from-blue-300 to-indigo-200 group-hover:scale-105 transition-transform duration-500"></div>
                       )}

@@ -142,15 +142,29 @@ export default function CreateKosPage() {
       const { data: newKos } = await api.post('/kos', payload);
 
       // 2. Upload Images if exist
-      if (files.length > 0) {
-        for (const f of files) {
-          const uploadData = new FormData();
-          uploadData.append('file', f);
-          await api.post(`/kos/${newKos.id}/images`, uploadData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-          });
+              if (files.length > 0) {
+          for (const f of files) {
+            // Upload directly to ImgBB
+            const imgbbData = new FormData();
+            imgbbData.append('image', f);
+            
+            const imgbbRes = await fetch('https://api.imgbb.com/1/upload?key=23c0298fe962b4594f78729f4569a226', {
+              method: 'POST',
+              body: imgbbData
+            });
+            const imgbbJson = await imgbbRes.json();
+            
+            if (imgbbJson.success) {
+              // Send the permanent ImgBB URL to our backend
+              await api.post(
+                id ? `/kos/${id}/images` : `/kos/${kosId}/images`, 
+                { url: imgbbJson.data.url }
+              );
+            } else {
+              toast.error('Gagal mengunggah foto ke server penyimpanan');
+            }
+          }
         }
-      }
 
       toast.success('Kos berhasil ditambahkan!', { id: toastId });
       router.push('/owner/kos');
