@@ -8,6 +8,7 @@ import {
   BadRequestException,
   ForbiddenException,
   NotFoundException,
+  Body,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';

@@ -157,7 +157,7 @@ export default function CreateKosPage() {
             if (imgbbJson.success) {
               // Send the permanent ImgBB URL to our backend
               await api.post(
-                id ? `/kos/${id}/images` : `/kos/${kosId}/images`, 
+                `/kos/${newKos.id}/images`, 
                 { url: imgbbJson.data.url }
               );
             } else {
