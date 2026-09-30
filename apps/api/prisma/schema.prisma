@@ -122,6 +122,11 @@ model Kos {
   priceFrom   Decimal       @db.Decimal(10, 2)
   priceTo     Decimal       @db.Decimal(10, 2)
   genderType  GenderType
+  @@index([name])
+  @@index([regency, district])
+  @@index([priceFrom])
+  @@index([genderType])
+
   kosType     KosType       @default(STANDAR)
   availableRooms Int        @default(0)
   rules       String?       @db.Text
@@ -146,6 +151,8 @@ model KosImage {
   kos       Kos      @relation(fields: [kosId], references: [id], onDelete: Cascade)
   url       String
   isPrimary Boolean  @default(false)
+  @@index([kosId])
+
   order     Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -212,6 +219,9 @@ model Review {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   kosId     String
   kos       Kos      @relation(fields: [kosId], references: [id], onDelete: Cascade)
+  @@index([kosId])
+  @@index([rating])
+
   rating    Int
   comment   String?  @db.Text
   reply     String?  @db.Text // Owner's reply
@@ -225,6 +235,8 @@ model Favorite {
   kosId     String
   kos       Kos      @relation(fields: [kosId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+
+  @@index([kosId])
 
   @@id([userId, kosId])
 }
