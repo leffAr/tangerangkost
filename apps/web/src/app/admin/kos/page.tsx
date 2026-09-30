@@ -1,6 +1,8 @@
 'use client';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getImageUrl } from '@/lib/image';
+
 import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -65,7 +67,7 @@ export default function AdminKosListPage() {
               
               {kos.kosImages?.[0] ? (
                 <div className="aspect-[4/3] sm:aspect-video w-full bg-gray-100 overflow-hidden relative">
-                  <img src={kos.kosImages[0].url.startsWith('http') ? kos.kosImages[0].url : `https://tangerangkost.onrender.com${kos.kosImages[0].url}`} alt={kos.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src={getImageUrl(kos.kosImages[0].url)} alt={kos.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
               ) : (
                 <div className="aspect-[4/3] sm:aspect-video w-full bg-gray-50 flex items-center justify-center text-gray-300 border-b border-gray-100">

@@ -1,6 +1,8 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getImageUrl } from '@/lib/image';
+
 import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -191,7 +193,7 @@ export default function PopularAreasAdminPage() {
           {areas?.map((area: any) => (
             <Card key={area.id} className={`overflow-hidden group border-0 shadow-sm hover:shadow-md transition-all ${!area.isActive && 'opacity-60 grayscale-[50%]'}`}>
               <div className="h-40 w-full bg-gray-100 relative">
-                <img src={area.imageUrl.startsWith('/') ? `https://tangerangkost.onrender.com${area.imageUrl}` : area.imageUrl} alt={area.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src={getImageUrl(area.imageUrl)} alt={area.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-black/40"></div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
                   <h3 className="text-white font-bold text-center drop-shadow-md mb-2">{area.name}</h3>

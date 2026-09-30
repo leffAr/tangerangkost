@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { getImageUrl } from '@/lib/image';
+
 import { api } from '@/lib/api';
 import { Save, Phone, Mail, MapPin, Image as ImageIcon, Upload, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -278,7 +280,7 @@ export default function AdminSettingsPage() {
                 {heroSlides.map((slide, idx) => (
                   <div key={idx} className="relative group aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
                     <img 
-                      src={slide.startsWith('http') ? slide : `https://tangerangkost.onrender.com${slide}`} 
+                      src={getImageUrl(slide)} 
                       alt={`Slide ${idx+1}`} 
                       className="w-full h-full object-cover"
                     />
@@ -366,7 +368,7 @@ export default function AdminSettingsPage() {
                 <div className="w-full md:w-1/2 aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center relative">
                   {aboutImage ? (
                     <img 
-                      src={aboutImage.startsWith('http') ? aboutImage : `https://tangerangkost.onrender.com${aboutImage}`} 
+                      src={getImageUrl(aboutImage)} 
                       alt="Tentang Kami" 
                       className="w-full h-full object-cover"
                     />

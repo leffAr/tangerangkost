@@ -1,6 +1,8 @@
 'use client';
 
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { getImageUrl } from '@/lib/image';
+
 import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -79,7 +81,7 @@ export default function KosDetailPage({ params }: { params: Promise<{ slug: stri
             <X className="w-6 h-6 text-white" />
           </div>
           <img 
-            src={activeImage.startsWith('http') ? activeImage : `https://tangerangkost.onrender.com${activeImage}`} 
+            src={getImageUrl(activeImage)} 
             alt="Full screen preview" 
             className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl cursor-default" 
             onClick={(e) => e.stopPropagation()}
@@ -118,7 +120,7 @@ export default function KosDetailPage({ params }: { params: Promise<{ slug: stri
               className="col-span-3 h-full relative group cursor-pointer overflow-hidden bg-gray-100"
               onClick={() => setActiveImage(mainImage)}
             >
-              <img src={mainImage.startsWith('http') ? mainImage : `https://tangerangkost.onrender.com${mainImage}`} alt="Foto Utama" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img src={getImageUrl(mainImage)} alt="Foto Utama" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors flex items-center justify-center">
                 <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-gray-900 px-4 py-2 rounded-full font-bold shadow-lg transition-opacity flex items-center gap-2">
                   <Search className="w-4 h-4" /> Perbesar HD
@@ -137,7 +139,7 @@ export default function KosDetailPage({ params }: { params: Promise<{ slug: stri
                   className="h-1/2 relative group cursor-pointer overflow-hidden bg-gray-100"
                   onClick={() => setActiveImage(img.url)}
                 >
-                  <img src={img.url.startsWith('http') ? img.url : `https://tangerangkost.onrender.com${img.url}`} alt={`Foto ${idx+2}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <img src={getImageUrl(img.url)} alt={`Foto ${idx+2}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                 </div>
               ))}
@@ -159,7 +161,7 @@ export default function KosDetailPage({ params }: { params: Promise<{ slug: stri
                 className="flex-none w-[85%] h-full snap-center relative overflow-hidden rounded-xl bg-gray-100 cursor-pointer"
                 onClick={() => setActiveImage(img.url)}
               >
-                <img src={img.url.startsWith('http') ? img.url : `https://tangerangkost.onrender.com${img.url}`} alt={`Foto ${idx+1}`} className="w-full h-full object-cover" />
+                <img src={getImageUrl(img.url)} alt={`Foto ${idx+1}`} className="w-full h-full object-cover" />
                 <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded-md font-medium">
                   {idx + 1} / {allImages.length}
                 </div>

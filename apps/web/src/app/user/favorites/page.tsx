@@ -1,6 +1,8 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { getImageUrl } from '@/lib/image';
+
 import { api } from '@/lib/api';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
@@ -68,7 +70,7 @@ export default function UserFavoritesPage() {
               <Card className="overflow-hidden border-0 shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl bg-white hover:-translate-y-1 h-full relative">
                 <div className="aspect-[4/3] bg-gray-200 relative overflow-hidden">
                   {kos.kosImages?.[0] ? (
-                    <img src={kos.kosImages[0].url.startsWith('http') ? kos.kosImages[0].url : `https://tangerangkost.onrender.com${kos.kosImages[0].url}`} alt={kos.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={getImageUrl(kos.kosImages[0].url)} alt={kos.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <div className="absolute inset-0 bg-gradient-to-tr from-blue-300 to-indigo-200"></div>
                   )}

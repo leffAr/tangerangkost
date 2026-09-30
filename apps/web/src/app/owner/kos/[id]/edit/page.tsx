@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getImageUrl } from '@/lib/image';
+
 import { api } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -375,7 +377,7 @@ export default function EditKosPage() {
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                       {existingImages.map((img) => (
                         <div key={img.id} className="relative aspect-video rounded-lg overflow-hidden border border-gray-200 shadow-sm group bg-gray-50">
-                          <img src={img.url.startsWith('http') ? img.url : `https://tangerangkost.onrender.com${img.url}`} alt="Kos" className="w-full h-full object-cover" />
+                          <img src={getImageUrl(img.url)} alt="Kos" className="w-full h-full object-cover" />
                           <button 
                             type="button" 
                             onClick={(e) => { 
