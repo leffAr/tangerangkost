@@ -1,36 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { User, Prisma } from '@prisma/client';
+import re
 
-@Injectable()
-export class UsersService {
-  constructor(private prisma: PrismaService) {}
+path = 'apps/api/src/users/users.service.ts'
+with open(path, 'r', encoding='utf-8') as f:
+    content = f.read()
 
-  async findOne(
-    userWhereUniqueInput: Prisma.UserWhereUniqueInput,
-  ): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: userWhereUniqueInput,
-    });
-  }
-
-  async create(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prisma.user.create({
-      data,
-    });
-  }
-
-  async update(params: {
-    where: Prisma.UserWhereUniqueInput;
-    data: Prisma.UserUpdateInput;
-  }): Promise<User> {
-    const { where, data } = params;
-    return this.prisma.user.update({
-      data,
-      where,
-    });
-  }
-
+methods = """
   async getFavorites(userId: string) {
     const favorites = await this.prisma.favorite.findMany({
       where: { userId },
@@ -63,3 +37,9 @@ export class UsersService {
     }
   }
 }
+"""
+
+content = re.sub(r"\}\s*$", methods, content)
+
+with open(path, 'w', encoding='utf-8') as f:
+    f.write(content)

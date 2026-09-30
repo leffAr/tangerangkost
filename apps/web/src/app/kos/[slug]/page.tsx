@@ -101,7 +101,7 @@ export default function KosDetailPage({ params }: { params: Promise<{ slug: stri
         <div className="flex items-center text-gray-500 font-medium text-sm md:text-base">
           <span className="flex items-center">
             <Star className="w-4 h-4 text-yellow-500 fill-current mr-1" />
-            4.8 <span className="text-gray-400 ml-1 underline decoration-dotted">({reviews?.length || 0} Ulasan)</span>
+            {kos.reviews?.length > 0 ? (kos.reviews.reduce((a: number, c: any) => a + c.rating, 0) / kos.reviews.length).toFixed(1) : "Baru"} <span className="text-gray-400 ml-1 underline decoration-dotted">({reviews?.length || 0} Ulasan)</span>
           </span>
           <span className="mx-3">•</span>
           <span className="flex items-center">

@@ -85,7 +85,8 @@ export class KosService {
       where,
       include: {
         kosImages: { orderBy: { order: 'asc' } },
-        owner: { include: { user: { select: { name: true, phone: true } } } }
+        owner: { include: { user: { select: { name: true, phone: true } } } },
+        reviews: { select: { rating: true } }
       },
       orderBy: { createdAt: 'desc' },
     });

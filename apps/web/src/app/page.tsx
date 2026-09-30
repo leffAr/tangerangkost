@@ -3,6 +3,7 @@
 export const dynamic = 'force-dynamic';
 
 import { Button } from '@/components/ui/button';
+import { FavoriteButton } from '@/components/kos/FavoriteButton';
 import { Card, CardContent } from '@/components/ui/card';
 import { Search, MapPin, Star, Sparkles, Building, ArrowRight, Navigation, MessageCircle, CheckCircle, Smartphone, UserCheck, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
@@ -365,13 +366,18 @@ export default function Home() {
                             Tersedia {kos.availableRooms} Kamar
                           </div>
                         ) : null}
-                    </div>
-                    <CardContent className="p-5">
+                        <FavoriteButton kosId={kos.id} className=\"absolute bottom-3 right-3 z-20 hover:scale-110 active:scale-95\" />
+                      </div>
+                      <CardContent className="p-5">
                       <div className="flex justify-between items-start mb-3">
                         <h3 className="font-bold text-lg text-gray-900 line-clamp-1 group-hover:text-[#00288E] transition-colors">{kos.name}</h3>
                         <div className="flex items-center bg-yellow-50 px-2 py-1 rounded-md text-yellow-600 text-xs font-bold">
                           <Star className="h-3 w-3 fill-current" />
-                          <span className="ml-1">4.8</span>
+                          <span className="ml-1">
+                              {kos.reviews?.length > 0 
+                                ? (kos.reviews.reduce((acc: number, curr: any) => acc + curr.rating, 0) / kos.reviews.length).toFixed(1) 
+                                : "Baru"}
+                            </span>
                         </div>
                       </div>
                       <p className="text-gray-500 text-sm mb-5 line-clamp-1 flex items-center">
