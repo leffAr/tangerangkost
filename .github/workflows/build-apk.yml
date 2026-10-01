@@ -32,11 +32,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
       - name: Install Dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: |
+          cd apps/web
+          npm install
 
       - name: Sync Capacitor
         run: |
@@ -48,6 +47,7 @@ jobs:
       - name: Build APK (Debug)
         run: |
           cd apps/web/android
+          sed -i 's/\r$//' gradlew
           chmod +x gradlew
           ./gradlew assembleDebug
 
