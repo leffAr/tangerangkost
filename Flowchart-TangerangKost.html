@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flowchart TangerangKost</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f0f2f5; margin: 0; }
+        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .download-btn { margin-top: 20px; padding: 10px 20px; background: #00288E; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Flowchart TangerangKost</h2>
+        <p>Klik kanan pada gambar di bawah lalu pilih <b>"Save image as..."</b> atau <b>"Copy image"</b> untuk memindahkannya ke PPT Anda.</p>
+        <div class="mermaid">
+flowchart TD
+    classDef user fill:#e1f5fe,stroke:#0288d1,stroke-width:2px;
+    classDef owner fill:#fff3e0,stroke:#f57c00,stroke-width:2px;
+    classDef admin fill:#fce4ec,stroke:#c2185b,stroke-width:2px;
+    classDef system fill:#f5f5f5,stroke:#9e9e9e,stroke-width:2px,stroke-dasharray: 5 5;
+
+    U((Pencari Kos)):::user
+    O((Pemilik Kos)):::owner
+    A((Administrator)):::admin
+
+    subgraph OwnerFlow ["Alur Pemilik Kos"]
+        O --> O1[Register & Login sebagai Owner]
+        O1 --> O2{Sudah Terverifikasi?}
+        O2 -- Belum --> O3[Upload KTP & Selfie]
+        O3 --> O4(Menunggu Verifikasi Admin)
+        O2 -- Sudah --> O5[Akses Dashboard Owner]
+        O5 --> O6[Tambah/Edit Data Kos]
+        O6 --> O7[Tambah/Edit Kamar & Harga]
+        O7 --> O8[(Database Kos Disimpan)]
+    end
+
+    subgraph AdminFlow ["Alur Administrator"]
+        A --> A1[Login Dashboard Admin]
+        A1 --> A2[Buka Menu Verifikasi Pemilik]
+        A2 --> A3{Cek Data KTP & Selfie}
+        O4 -.-> A3
+        A3 -- Valid --> A4[Setujui Approved]
+        A3 -- Tidak Valid --> A5[Tolak Rejected]
+        A4 -.-> O2
+        A1 --> A6[Manajemen Data User & Area]
+    end
+
+    subgraph UserFlow ["Alur Pencari Kos"]
+        U --> U1[Buka Aplikasi / Web]
+        U1 --> U2[Ketik Lokasi / Nama Kecamatan]
+        U2 --> U3{Filter Pencarian}
+        U3 -- Harga, Tipe, Fasilitas --> U4[Tampilkan Daftar Kos]
+        O8 -.-> U4
+        U4 --> U5[Lihat Detail Kos]
+        
+        U5 --> U6{Action Pencari Kos}
+        U6 -- Klik Simpan --> U7[Login & Tambah ke Favorit]
+        U6 -- Klik WhatsApp --> U8[Chat Langsung ke Pemilik]
+        U6 -- Tulis Ulasan --> U9[Beri Rating & Review Asli]
+    end
+
+    subgraph SystemFlow ["Alur Sistem Proxy Edge"]
+        U4 -.-> S1{Tampilkan Foto Kos}
+        S1 -- Deteksi ISP Indonesia --> S2[Lewati Blokir via Vercel Proxy]
+        S2 --> S3[Foto Kos Berhasil Tampil di HP]
+    end
+        </div>
+    </div>
+</body>
+</html>
